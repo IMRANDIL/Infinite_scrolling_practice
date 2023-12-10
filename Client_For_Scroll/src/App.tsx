@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
+import axios from 'axios';
+import InfiniteScroll from './components/InfiniteScroll'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true); // Track if there are more items
+  const pageSize = 20;
+  const uri = `http://localhost:5000`;
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+
+      try {
+        const response = await axios.get(`${uri}/api/items?page=${page}&pageSize=${pageSize}`);
+        const newItems = response.data;
+
+        if (newItems.length === 0) {
+          // No more items, stop fetching
+          setHasMore(false);
+        } else {
+          setItems((prevItems) => [...prevItems, ...newItems]);
+        }
+      } catch (error) {
+        console.error('Error fetching items:', error);
+      }
+
+      setLoading(false);
+    };
+
+    if (hasMore) {
+      fetchItems();
+    }
+  }, [page, hasMore]);
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+
+    const scrollThreshold = 100;
+
+    if (scrollTop + clientHeight >= scrollHeight - scrollThreshold && !loading && hasMore) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [loading, hasMore]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <InfiniteScroll loading={loading} items={items} />
+    </div>
+  );
 }
 
-export default App
+export default App;
