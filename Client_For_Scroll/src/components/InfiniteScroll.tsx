@@ -3,7 +3,7 @@ import React from 'react';
 const InfiniteScroll = ({ items, loading }) => {
   return (
     <div className='infinite-scroll-container'>
-      <h1>Infinite Scroll Demo</h1>
+      <h1>Infinite PixiMania</h1>
       <ul className='item-grid'>
         {items.map((item) => (
           <li key={item.id} className='grid-item'>

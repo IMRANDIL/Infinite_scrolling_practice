@@ -34,12 +34,28 @@ const imageUrls = [
   'https://cdn.pixabay.com/photo/2013/06/12/22/20/mountains-139012_1280.jpg'
 ];
 
-// Function to get a random image URL
-const getRandomImageUrl = () => {
-  const randomIndex = Math.floor(Math.random() * imageUrls.length);
-  return imageUrls[randomIndex];
+// Function to shuffle an array
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 };
 
+// Shuffle the array of image URLs
+shuffleArray(imageUrls);
+
+// Function to get a random image URL, ensuring it is not the same as the previous one
+let previousImageUrl;
+const getRandomImageUrl = () => {
+  let randomIndex;
+  do {
+    randomIndex = Math.floor(Math.random() * imageUrls.length);
+  } while (imageUrls[randomIndex] === previousImageUrl);
+
+  previousImageUrl = imageUrls[randomIndex];
+  return previousImageUrl;
+};
 // Update the items array with imageUrl
 items.forEach((item) => {
   item.imageUrl = getRandomImageUrl();
