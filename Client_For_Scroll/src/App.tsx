@@ -53,10 +53,15 @@ function App() {
   }, [loading, hasMore]);
 
   return (
-    <div>
+    <div style={{
+      height: '100vh'
+    }}>
       <InfiniteScroll loading={loading} items={items} />
     </div>
   );
 }
 
 export default App;
+
+
+

@@ -15,6 +15,7 @@ app.get('/api/items', (req, res) => {
   const start = (page - 1) * pageSize;
   const end = start + Number(pageSize);
   const paginatedItems = items.slice(start, end);
+  console.log('paginatedItems>>>>>>>>>>>>>>>>>>>', paginatedItems)
   res.json(paginatedItems);
 });
 
