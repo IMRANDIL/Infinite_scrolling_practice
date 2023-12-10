@@ -53,9 +53,7 @@ function App() {
   }, [loading, hasMore]);
 
   return (
-    <div style={{
-      height: '100vh'
-    }}>
+    <div className='app-container'>
       <InfiniteScroll loading={loading} items={items} />
     </div>
   );
