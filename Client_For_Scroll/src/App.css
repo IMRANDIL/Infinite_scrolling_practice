@@ -6,7 +6,7 @@
   
   /* InfiniteScroll.css */
   .infinite-scroll-container {
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
   }
   
@@ -27,14 +27,13 @@
     font-style: italic;
     color: #777;
   }
-
+  
   .item-grid {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
   }
-
+  
   .grid-item {
     display: flex;
     flex-direction: column;
@@ -45,14 +44,28 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-
-  .image-container {
-    max-width: 100%; /* Constrain the width of the image container */
-    overflow: hidden; /* Hide any overflowing content */
+  
+ /* InfiniteScroll.css */
+.image-container {
+    width: 100%;
+    height: 100%;
+   
   }
-
-  /* Media query for larger screens */
-@media screen and (min-width: 768px) {
+  
+  .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Maintain the aspect ratio while fitting the entire image within the container */
+    border-radius: 4px;
+  }
+  /* Media queries for responsive grid */
+  @media screen and (min-width: 768px) {
+    .item-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  }
+  
+  @media screen and (min-width: 1200px) {
     .item-grid {
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }

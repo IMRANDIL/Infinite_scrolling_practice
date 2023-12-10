@@ -8,7 +8,7 @@ const InfiniteScroll = ({ items, loading }) => {
         {items.map((item) => (
           <li key={item.id} className='grid-item'>
             <div className='image-container'>
-              <img src={item.imageUrl} alt={`Item ${item.id}`} />
+              <img src={item.imageUrl} alt={`Item ${item.id}`} draggable={false}/>
             </div>
             <span>{item.name}</span>
           </li>
